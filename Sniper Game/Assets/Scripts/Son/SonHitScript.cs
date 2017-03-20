@@ -11,7 +11,7 @@ public class SonHitScript: MonoBehaviour //Script that takes care of when the pl
     void Update() //Checking for input and overlap
     {
         if (Overlapped &&
-            Input.GetKeyDown(KeyCode.Space)) //Checks if the reticle is overlapping the son and if the space bar has been pressed
+            Input.GetKeyDown(KeyCode.Space) && Global.me.Reload == true) //Checks if the reticle is overlapping the son and if the space bar has been pressed
         {
             SonTextDisplay = true; //Displays the text saying you shot your son
             Global.me.SonsHit += 1; //Keeping track of everytime a son gets shot 

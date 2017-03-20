@@ -15,15 +15,22 @@ public class Targeting : MonoBehaviour // Targeting script. Sets the boundries a
 
 	void Start () //Initialization
     {
-        rb = GetComponent<Rigidbody2D>(); //Initializes the ridgid body
-	}
+        Application.targetFrameRate = 60;
+        QualitySettings.vSyncCount = 1;
+        rb = GetComponent<Rigidbody2D>(); //Initializes the ridgid body    
+    }
 	
 	
-	void Update () //Updating the position of the recticle
+	void Update () //Manages player input
     {
         InputMoving(); //function allowing for clarity and organization. It deals with the movement input
 
         Boundries(); //function allowing for clarity and orginization. It deals with the boundries of the reticle
+
+        if(Input.GetKeyDown(KeyCode.R)) //button clicks
+        {
+            Global.me.Reload = true; //sets the boolean equal to true if the r button is pressed
+        }
     }
 
     void InputMoving()

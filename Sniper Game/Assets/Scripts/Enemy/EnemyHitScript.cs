@@ -9,7 +9,7 @@ public class EnemyHitScript : MonoBehaviour //Basic (not moving) enemy script. I
     void Update()
     {
         if (Overlapped &&
-            Input.GetKeyDown(KeyCode.Space)) //Checks if it is on the target and if the space bar is pressed
+            Input.GetKeyDown(KeyCode.Space) && Global.me.Reload == true) //Checks if it is on the target and if the space bar is pressed and if the player has reloaded
         {
             Destroy(gameObject); //Destroys the game object
             Global.me.EnemiesKilled += 1; 

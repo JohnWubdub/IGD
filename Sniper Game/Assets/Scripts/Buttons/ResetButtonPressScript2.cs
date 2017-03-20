@@ -10,6 +10,8 @@ public class ResetButtonPressScript2 : MonoBehaviour //reloads the scene when th
         SonHitScript.SonTextDisplay = false; //resets the text
         Global.me.SonsHit = 0; //resets the number of sons hit
         Global.me.EnemiesKilled = 0; // resets the number of enemies killed
+        Global.me.Timer = 30; //resets the timer
+        Global.me.Reload = true; //sets it so they don't have to reload when they start the level
         SceneManager.LoadScene("Scene2"); //reloads that one specific scene  
     }
 }
