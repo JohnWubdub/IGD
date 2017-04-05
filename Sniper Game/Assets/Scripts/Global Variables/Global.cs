@@ -8,7 +8,8 @@ public class Global : MonoBehaviourSingleton<Global> //acts almost like a bank f
     public static int SonsHit = 0; //global varaible for the losing condition
     public float Timer = 30f; //Timer for each level
     public bool Reload = true; //checks if the player has reloaded
-    public Collider2D[] colArr; //makes the array for the collsion detection public
+    public bool Won = false; //makes sure it doesn't display the gameover screen when the player has won
+
 
     private void Awake() 
     {

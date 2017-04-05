@@ -1,40 +1,37 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Sound : MonoBehaviour //manages the sound effects
+public class Sound : MonoBehaviour //manages the sound effects and plays them
 {
     public AudioClip shootSound; //establishes the shooting sound
     public AudioClip reloadSound; //establishes the reload sound
-    public AudioClip backSound;
+    public AudioClip backSound; //establishes the background music
     //private AudioSource source; //establishes the private sound source
     public float volume; // establishes a volume
+    public float backvolume = .5f; //bachground volume
 
-    private AudioSource[] audSources;
-    public GameObject audSource;
+    private AudioSource[] audSources; //creates an array of audio sources
+    public GameObject audSource; //assign the game object as being the game object 
 
     void Start()
     {
         //source = GetComponent<AudioSource>(); //initalizes the sound effect
-        audSources = new AudioSource[32];
-        for (int i = 0; i < audSources.Length; i++)
+        audSources = new AudioSource[32]; //32, why? Fuck you that's why
+        for (int i = 0; i < audSources.Length; i++) //for loop that create 32 gameobjects that have an audio source attached to it
         {
             audSources[i] = (Instantiate(audSource, Vector3.zero, Quaternion.identity) as GameObject).GetComponent<AudioSource>();
         }
-        audSources[0].PlayOneShot(backSound, volume);
+        audSources[0].PlayOneShot(backSound, backvolume); //assigns the background music to the first audio source
     }
 
-    void Update()
+    public void Gunshot()
     {
+       audSources[1].PlayOneShot(shootSound, volume); //plays sound on the assigned gameobject with the source
+    }
 
-        if (Input.GetKeyDown(KeyCode.Space) && Global.me.Reload == true) //sees if it can play the sound
-        {
-            audSources[1].PlayOneShot(shootSound, volume); //plays sound effect
-            Global.me.Reload = false; //the player needs to reload
-        }
-        if (Input.GetKeyDown(KeyCode.R)) //checks if the button is pressed
-        {
-            audSources[2].PlayOneShot(reloadSound, volume); //Plays the sound effect
-        }
+    public void Reload()
+    {
+       audSources[2].PlayOneShot(reloadSound, volume); //plays sound on the assigned gameobject with the source
     }
 }
         

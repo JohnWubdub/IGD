@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Targeting : MonoBehaviour // Targeting script. Sets the boundries and gives a movement input.
+public class Target : MonoBehaviour // Targeting script. Sets the boundries and gives a movement input.
 {
     //public numbers are used to allow for tweaks
     public float MovementSpeed = 0.3f; //Movement Speed for the reticle
@@ -13,7 +13,7 @@ public class Targeting : MonoBehaviour // Targeting script. Sets the boundries a
 
     Rigidbody2D rb; //establishes the ridgidbody 
 
-    public static bool SonTextDisplay = false; //Boolean to identify if the text should display
+    Collider2D[] colArr; //makes the array for the collsion detection
 
     void Start () //Initialization
     {
@@ -38,35 +38,30 @@ public class Targeting : MonoBehaviour // Targeting script. Sets the boundries a
     }
 
 
-    void Shooting()
+    void Shooting() //handles the hit detection of the enemies and sends out the information regarding player kills to the other scripts
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && Global.me.Reload == true) //Initiates the for loop when the space bar is pressed
         {
             
-            Collider2D[] colArr = Physics2D.OverlapPointAll(new Vector2(transform.position.x, transform.position.y));
-            for (int i = 0; i < colArr.Length; i++)
+            Collider2D[] colArr = Physics2D.OverlapPointAll(new Vector2(transform.position.x, transform.position.y)); //creates an array of all the object that are overlapping that point
+            for (int i = 0; i < colArr.Length; i++) //creates a for loop that goes through the array
             {
-                if (colArr[i].gameObject.tag == "Red" &&
-                Global.me.Reload == true)
+                if (colArr[i].gameObject.tag == "Red") //checking if it meets the requirments for an enemy
                 {
-                    colArr[i].gameObject.SetActive(false);
-                    Global.me.EnemiesKilled += 1;
+                    colArr[i].gameObject.SetActive(false); //kill function
+                    Global.me.EnemiesKilled += 1; //adds the point
                 }
-                if (colArr[i].gameObject.tag == "Blue" &&
-                Global.me.Reload == true)
+                if (colArr[i].gameObject.tag == "Blue") //checking if it meets the requirments for the son
                 {
-                    colArr[i].gameObject.SetActive(false);
-                    Global.SonsHit += 1;
-                    SonTextDisplay = true;
+                    colArr[i].gameObject.SetActive(false); //kill function
+                    Persist.sonsHit += 1; //adds the point
                 }
             }
         }
     }
 
-    void InputMoving()
+    void InputMoving()  //Movement code using the updated ridgid body move position to allows for smooth movement and no phasing through walls
     {
-        //Movement code using the updated ridgid body move position to allows for smooth movement and no phasing through walls
-
         if (Input.GetKey(KeyCode.W)) //Upward Movement
         {
             rb.MovePosition(new Vector3(transform.position.x, transform.position.y + MovementSpeed, 0));
@@ -88,10 +83,8 @@ public class Targeting : MonoBehaviour // Targeting script. Sets the boundries a
         }
     }
 
-    void Boundries()
+    void Boundries() //Boundries that reset the position of the reticle if they try to leave the scene (easier and cleaner than walls)
     {
-        //Boundries that reset the position of the reticle if they try to leave the scene (easier and cleaner than walls)
-
         if (transform.position.x < Leftbound) //Left boundry 
         {
             rb.MovePosition(new Vector3(Leftbound, transform.position.y, 0));

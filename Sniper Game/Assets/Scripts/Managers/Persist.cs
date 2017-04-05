@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class Persist : MonoBehaviour
 {
-
     private static Persist persist = null;
 
-    public static int myInt = 0;
+    public static int sonsHit = 0;
 
     void Awake()
     {
