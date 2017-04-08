@@ -6,6 +6,7 @@ public class Sound : MonoBehaviour //manages the sound effects and plays them
     public AudioClip shootSound; //establishes the shooting sound
     public AudioClip reloadSound; //establishes the reload sound
     public AudioClip backSound; //establishes the background music
+    public AudioClip drySound; //establishes the background music
     //private AudioSource source; //establishes the private sound source
     public float volume; // establishes a volume
     public float backvolume = .5f; //bachground volume
@@ -32,6 +33,10 @@ public class Sound : MonoBehaviour //manages the sound effects and plays them
     public void Reload()
     {
        audSources[2].PlayOneShot(reloadSound, volume); //plays sound on the assigned gameobject with the source
+    }
+    public void DryFire()
+    {
+       audSources[2].PlayOneShot(drySound, volume); //plays sound on the assigned gameobject with the source
     }
 }
         

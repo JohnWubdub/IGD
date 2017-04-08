@@ -35,7 +35,11 @@ public class Targeting : MonoBehaviour // Targeting script. Sets the boundries a
         {
             Global.me.Reload = true; //sets the boolean equal to true if the r button is pressed
             GetComponent<Sound>().Reload();
-        } 
+        }
+        if (Input.GetKeyDown(KeyCode.Space) && Global.me.Reload == false) //button clicks
+        {
+            GetComponent<Sound>().DryFire();
+        }
     }
 
 
@@ -49,7 +53,6 @@ public class Targeting : MonoBehaviour // Targeting script. Sets the boundries a
             Collider2D[] colArr = Physics2D.OverlapPointAll(new Vector2(transform.position.x, transform.position.y)); //creates an array of all the object that are overlapping that point
             for (int i = 0; i < colArr.Length; i++) //creates a for loop that goes through the array
             {
-                Debug.Log(colArr[i]);
                 if (colArr[i].gameObject.tag == "Red") //checking if it meets the requirments for an enemy
                 {
                     colArr[i].gameObject.SetActive(false); //kill function
@@ -59,6 +62,7 @@ public class Targeting : MonoBehaviour // Targeting script. Sets the boundries a
                 {
                     colArr[i].gameObject.SetActive(false); //kill function
                     Persist.sonsHit += 1; //adds the point
+                    Global.me.Timer += 10; //adds 
                 }
             }
         }
