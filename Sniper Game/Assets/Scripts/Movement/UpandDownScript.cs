@@ -2,50 +2,45 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UpandDownScript : MonoBehaviour
+public class UpandDownScript : MonoBehaviour //Deals with up and down movement 
 {
 
-    Rigidbody2D rb; //establishes the ridgidbody
-
-    //public booleans to decide which way the object will go
+    Rigidbody2D rb; 
+    
     public bool MovingUp = true;
     public bool MovingDown = false;
+    
+    public float Topbound = 5; 
+    public float Bottombound = -5; 
 
-    //public floats to decide what space the object will occupy
-    public float Topbound = 5; //Right boundry
-    public float Bottombound = -5; //Left boundry
+    public float MovementSpeed = 0.3f;
 
-    public float MovementSpeed = 0.3f; //Sets the movement speed to a starting point 
-
-    void Start() //initializing
+    void Start() 
     {
-        rb = GetComponent<Rigidbody2D>(); //gets the ridgidbody
+        rb = GetComponent<Rigidbody2D>(); 
     }
 
-    void Update() //updating the position of the object
+    void Update()
     {
-        patrolling(); //patrolling fuction is called this allows for this bit of code 
-        //to be easily moved around and reconfigured without clogging up the update function
+        patrolling();
     }
 
-    void patrolling() //deals with the movement of game objects
+    void patrolling() 
     {
-        if (MovingUp == true) //When this is true the object moves right
+        if (MovingUp == true) 
         {
-            rb.MovePosition(new Vector3(transform.position.x, transform.position.y + MovementSpeed, 0)); //uses the ridgid body to move the object allowing the object to be shot
-            if (transform.position.y > Topbound) //same as the targeting bounds and can be changed based on the object
+            rb.MovePosition(new Vector3(transform.position.x, transform.position.y + MovementSpeed, 0)); 
+            if (transform.position.y > Topbound) 
             {
-                //controlling the direction of the object
                 MovingUp = false;
                 MovingDown = true;
             }
         }
         if (MovingDown == true)
         {
-            rb.MovePosition(new Vector3(transform.position.x, transform.position.y - MovementSpeed, 0)); //uses the ridgid body to move the object allowing the object to be shot
-            if (transform.position.y < Bottombound) //same as the targeting bounds and can be changed based on the object
+            rb.MovePosition(new Vector3(transform.position.x, transform.position.y - MovementSpeed, 0)); 
+            if (transform.position.y < Bottombound) 
             {
-                //controlling the direction of the object
                 MovingUp = true;
                 MovingDown = false;
             }

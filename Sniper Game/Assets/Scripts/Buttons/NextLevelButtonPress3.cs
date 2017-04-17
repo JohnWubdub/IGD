@@ -7,10 +7,10 @@ public class NextLevelButtonPress3 : MonoBehaviour //script that runs when the n
 
     public void NextLevelButton()
     {
-        SceneManager.LoadScene("Scene4"); //loads the next scene
-        Global.me.Timer = 30; //resets the timer
-        Global.me.Reload = true; //sets it so they don't have to reload when they start the level
-        Global.me.EnemiesKilled = 0; // resets the number of enemies killed
+        SceneManager.LoadScene("Scene4"); 
+        Global.me.Timer = 30; 
+        Global.me.Reload = true;
+        Global.me.EnemiesKilled = 0; 
         Global.me.Won = false;
     }
 }

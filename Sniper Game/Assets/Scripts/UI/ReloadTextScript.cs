@@ -4,22 +4,22 @@ using System.Collections;
 
 public class ReloadTextScript : MonoBehaviour //displays the reload text when the player needs to reload
 {
-    Text ReloadText; //initalizes
+    Text ReloadText;
 
 	void Start ()
     {
-        ReloadText = GetComponent<Text>(); //get the component
+        ReloadText = GetComponent<Text>();
 	}
 	
 	void Update ()
     {
-        if (Global.me.Reload == false) //checks if the player has reloaded
+        if (Global.me.Reload == false)
         {
-            ReloadText.text = "RELOAD!"; //updates the reload text to warn the player that they need to reload
+            ReloadText.text = "RELOAD!"; 
         }
-        if (Global.me.Reload == true) //checks if the player has reloaded
+        if (Global.me.Reload == true) 
         {
-            ReloadText.text = " "; //updates the reload text so it doesn't show
+            ReloadText.text = " "; 
         }
 	}
 }

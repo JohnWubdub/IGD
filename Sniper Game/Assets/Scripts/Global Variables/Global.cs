@@ -9,6 +9,8 @@ public class Global : MonoBehaviourSingleton<Global> //acts almost like a bank f
     public float Timer = 30f; //Timer for each level
     public bool Reload = true; //checks if the player has reloaded
     public bool Won = false; //makes sure it doesn't display the gameover screen when the player has won
+    public Screenshake screenshake; //establishes the screenshake script
+    public Screenflash screenflash; //establishes the screenflash script
 
 
     private void Awake() 

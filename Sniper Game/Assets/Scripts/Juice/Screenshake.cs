@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Screenshake : MonoBehaviour
+public class Screenshake : MonoBehaviour //Deals with the screenshake
 {
     Vector3 defaultCameraPos;
     Vector3 weightedDirection;

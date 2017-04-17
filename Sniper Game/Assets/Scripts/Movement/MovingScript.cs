@@ -1,56 +1,45 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MovingScript : MonoBehaviour // Allows the object to move right then left and continue to loop until it stops
+public class MovingScript : MonoBehaviour // Allows the object to move right then left 
 {
 
-    Rigidbody2D rb; //establishes the ridgidbody
-
-    Animator anim; //establishes animator
-
-    //public booleans to decide which way the object will go
+    Rigidbody2D rb;  
+    
     public bool MovingRight = true;
     public bool MovingLeft = false;
+    
+    public float Rightbound = 25; 
+    public float Leftbound = -25; 
 
-    //public floats to decide what space the object will occupy
-    public float Rightbound = 25; //Right boundry
-    public float Leftbound = -25; //Left boundry
+    public float MovementSpeed = 0.3f;  
 
-
-    public float MovementSpeed = 0.3f; //Sets the movement speed to a starting point 
-
-    void Start () //initializing
+    void Start () 
     {
-        rb = GetComponent<Rigidbody2D>(); //gets the ridgidbody
-        anim = GetComponent<Animator>(); //get the animator
+        rb = GetComponent<Rigidbody2D>();
     }
 	
-	void Update () //updating the position of the object
+	void Update () 
     {
-        patrolling(); //patrolling fuction is called this allows for this bit of code 
-        //to be easily moved around and reconfigured without clogging up the update function
+        patrolling();
     }
 
     void patrolling() //deals with the movement of game objects
     {
-        if (MovingRight == true) //When this is true the object moves right
+        if (MovingRight == true) 
         {
-            anim.SetBool("Moving Left", false); //changes the animation
-            rb.MovePosition(new Vector3(transform.position.x + MovementSpeed, transform.position.y, 0)); //uses the ridgid body to move the object allowing the object to be shot
-            if (transform.position.x > Rightbound) //same as the targeting bounds and can be changed based on the object
+            rb.MovePosition(new Vector3(transform.position.x + MovementSpeed, transform.position.y, 0)); 
+            if (transform.position.x > Rightbound) 
             {
-                //controlling the direction of the object
                 MovingRight = false; 
                 MovingLeft = true;
             }
         }
         if (MovingLeft == true)
         {
-            anim.SetBool("Moving Left", true); //changes the animation
-            rb.MovePosition(new Vector3(transform.position.x - MovementSpeed, transform.position.y, 0)); //uses the ridgid body to move the object allowing the object to be shot
-            if (transform.position.x < Leftbound) //same as the targeting bounds and can be changed based on the object
+            rb.MovePosition(new Vector3(transform.position.x - MovementSpeed, transform.position.y, 0)); 
+            if (transform.position.x < Leftbound) 
             {
-                //controlling the direction of the object
                 MovingRight = true;
                 MovingLeft = false;
             }

@@ -1,42 +1,45 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Sound : MonoBehaviour //manages the sound effects and plays them
+public class Sound : MonoBehaviour //manages the sound array and plays the sounds
 {
-    public AudioClip shootSound; //establishes the shooting sound
-    public AudioClip reloadSound; //establishes the reload sound
-    public AudioClip backSound; //establishes the background music
-    public AudioClip drySound; //establishes the background music
-    //private AudioSource source; //establishes the private sound source
-    public float volume; // establishes a volume
-    public float backvolume = .5f; //bachground volume
+    //audio clips
+    public AudioClip shootSound; 
+    public AudioClip reloadSound; 
+    public AudioClip backSound; 
+    public AudioClip drySound; 
+    
+    public float volume; 
+    public float backvolume = .5f; 
 
-    private AudioSource[] audSources; //creates an array of audio sources
-    public GameObject audSource; //assign the game object as being the game object 
+    //array and audio source
+    private AudioSource[] audSources; 
+    public GameObject audSource; 
 
-    void Start()
+    
+    void Start() //Creates an array of game objects and assigns aduio sources to the game objects
     {
-        //source = GetComponent<AudioSource>(); //initalizes the sound effect
         audSources = new AudioSource[32]; //32, why? Fuck you that's why
-        for (int i = 0; i < audSources.Length; i++) //for loop that create 32 gameobjects that have an audio source attached to it
+        for (int i = 0; i < audSources.Length; i++) 
         {
             audSources[i] = (Instantiate(audSource, Vector3.zero, Quaternion.identity) as GameObject).GetComponent<AudioSource>();
         }
-        audSources[0].PlayOneShot(backSound, backvolume); //assigns the background music to the first audio source
+        audSources[0].PlayOneShot(backSound, backvolume); //background music
     }
 
-    public void Gunshot()
+    //plays sound on the assigned game object
+    public void Gunshot() 
     {
-       audSources[1].PlayOneShot(shootSound, volume); //plays sound on the assigned gameobject with the source
+       audSources[1].PlayOneShot(shootSound, volume); 
     }
 
     public void Reload()
     {
-       audSources[2].PlayOneShot(reloadSound, volume); //plays sound on the assigned gameobject with the source
+       audSources[2].PlayOneShot(reloadSound, volume); 
     }
     public void DryFire()
     {
-       audSources[2].PlayOneShot(drySound, volume); //plays sound on the assigned gameobject with the source
+       audSources[2].PlayOneShot(drySound, volume); 
     }
 }
         

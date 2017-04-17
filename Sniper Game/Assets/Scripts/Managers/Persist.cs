@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Persist : MonoBehaviour
+public class Persist : MonoBehaviour //allows for the sons hit to perist through the levels but go away when the full game is restarted
 {
     private static Persist persist = null;
 

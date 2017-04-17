@@ -4,19 +4,17 @@ using System.Collections;
 
 public class Timer : MonoBehaviour //Displays the time the player has left to complete the level
 {
-    Text TimeLeft; //intializes the text
-
-    float TimeSubtraction = .05f; //the amount that the time dcreases by
+    Text TimeLeft; 
 
 	void Start ()
     {
-        TimeLeft = GetComponent<Text>(); //Establishes the text script
+        TimeLeft = GetComponent<Text>(); 
     }
 	
 	
 	void Update ()
     {
-        Global.me.Timer -= TimeSubtraction; //starts the timer countdown
-        TimeLeft.text = "TIME LEFT: " + Global.me.Timer; //displays the countdown
+        Global.me.Timer -= Time.deltaTime; 
+        TimeLeft.text = "TIME LEFT: " + Global.me.Timer; 
 	}
 }

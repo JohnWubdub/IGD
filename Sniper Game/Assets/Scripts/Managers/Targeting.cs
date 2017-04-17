@@ -1,116 +1,133 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
-public class Targeting : MonoBehaviour // Targeting script. Sets the boundries and gives a movement input.
+public class Targeting : MonoBehaviour //This does fucking everything 
 {
-    //public numbers are used to allow for tweaks
-    public float MovementSpeed = 0.3f; //Movement Speed for the reticle
+    
+    public float MovementSpeed = 4f; 
 
-    public float Leftbound = -25; //Left boundry
-    public float Rightbound = 25; //Right boundry
-    public float Topbound = 15; //Top boundry
-    public float Bottombound = -15; //Bottom boundry
+    public float Leftbound = -25; 
+    public float Rightbound = 25; 
+    public float Topbound = 15; 
+    public float Bottombound = -15; 
+    
 
-    Rigidbody2D rb; //establishes the ridgidbody 
+    ParticleSystem ps;
 
-    public static bool SonTextDisplay = false; //Boolean to identify if the text should display
+    Sound sound;
+
+    private object moveVect;
 
     void Start () //Initialization
     {
+        MovementSpeed = 20;
         Application.targetFrameRate = 60;
         QualitySettings.vSyncCount = 1;
-        rb = GetComponent<Rigidbody2D>(); //Initializes the ridgid body    
+        ps = GetComponent<ParticleSystem>();  
+        sound = GetComponent<Sound>(); 
     }
 	
 	
 	void Update () //Manages player input
     {
-        Shooting(); //function allowing for clarity and organization. It deals with the shooting
-
-        InputMoving(); //function allowing for clarity and organization. It deals with the movement input
-
-        Boundries(); //function allowing for clarity and orginization. It deals with the boundries of the reticle
-
-        if(Input.GetKeyDown(KeyCode.R)) //button clicks
+        if (Input.GetKeyDown(KeyCode.Space) && Global.me.Reload == true) 
         {
-            Global.me.Reload = true; //sets the boolean equal to true if the r button is pressed
-            GetComponent<Sound>().Reload();
+            Shooting();
         }
-        if (Input.GetKeyDown(KeyCode.Space) && Global.me.Reload == false) //button clicks
+        InputMoving(); 
+
+        Boundries();
+
+        if(Input.GetKeyDown(KeyCode.R)) 
         {
-            GetComponent<Sound>().DryFire();
+            Global.me.Reload = true; 
+            sound.Reload();
+        }
+        if (Input.GetKeyDown(KeyCode.Space) && Global.me.Reload == false) 
+        {
+            sound.DryFire();
         }
     }
 
 
     void Shooting() //handles the hit detection of the enemies and sends out the information regarding player kills to the other scripts
     {
-        if (Input.GetKeyDown(KeyCode.Space) && Global.me.Reload == true) //Initiates the for loop when the space bar is pressed
-        {
-            Global.me.Reload = false; //the player needs to reload
-            GetComponent<Sound>().Gunshot();
+        Global.me.screenshake.SetScreenShake(.4f, 1f, Vector3.right);
 
-            Collider2D[] colArr = Physics2D.OverlapPointAll(new Vector2(transform.position.x, transform.position.y)); //creates an array of all the object that are overlapping that point
-            for (int i = 0; i < colArr.Length; i++) //creates a for loop that goes through the array
+        Global.me.Reload = false;
+
+        sound.Gunshot();
+
+        Collider2D[] colArr = Physics2D.OverlapPointAll(new Vector2(transform.position.x, transform.position.y)); //creates an array of all the object that are overlapping that point
+        for (int i = 0; i < colArr.Length; i++) //creates a for loop that goes through the array
+        {
+            if (colArr[i].gameObject.tag == "Red") //checking if it meets the requirments for an enemy
             {
-                if (colArr[i].gameObject.tag == "Red") //checking if it meets the requirments for an enemy
-                {
-                    colArr[i].gameObject.SetActive(false); //kill function
-                    Global.me.EnemiesKilled += 1; //adds the point
-                }
-                if (colArr[i].gameObject.tag == "Blue") //checking if it meets the requirments for the son
-                {
-                    colArr[i].gameObject.SetActive(false); //kill function
-                    Persist.sonsHit += 1; //adds the point
-                    Global.me.Timer += 10; //adds 
-                }
+                colArr[i].gameObject.SetActive(false); 
+                Global.me.EnemiesKilled += 1; 
+                ps.Play();
+                Global.me.screenflash.Flash(.1f);
+            }
+            if (colArr[i].gameObject.tag == "Blue") //checking if it meets the requirments for the son
+            {
+                colArr[i].gameObject.SetActive(false); 
+                Persist.sonsHit += 1; 
+                Global.me.Timer += 5; 
+                ps.Play();
+                Global.me.screenflash.Flash(.1f);
             }
         }
+
     }
 
-    void InputMoving()  //Movement code using the updated ridgid body move position to allows for smooth movement and no phasing through walls
+    void InputMoving()  //"Vectors man" -Gabe
     {
-        if (Input.GetKey(KeyCode.W)) //Upward Movement
+        Vector2 moveVect = Vector2.zero;
+        if (Input.GetKey(KeyCode.W)) 
         {
-            rb.MovePosition(new Vector3(transform.position.x, transform.position.y + MovementSpeed, 0));
+            moveVect.y += 1;
         }
 
-        if (Input.GetKey(KeyCode.S)) //Downward Movement
+        if (Input.GetKey(KeyCode.S)) 
         {
-            rb.MovePosition(new Vector3(transform.position.x, transform.position.y - MovementSpeed, 0));
+            moveVect.y -= 1;
         }
 
-        if (Input.GetKey(KeyCode.D)) //Rightward Movement
+        if (Input.GetKey(KeyCode.D))
         {
-            rb.MovePosition(new Vector3(transform.position.x + MovementSpeed, transform.position.y, 0));
+            moveVect.x += 1;
         }
 
-        if (Input.GetKey(KeyCode.A)) //Leftward Movement
+        if (Input.GetKey(KeyCode.A))
         {
-            rb.MovePosition(new Vector3(transform.position.x - MovementSpeed, transform.position.y, 0));
+            moveVect.x -= 1;
         }
+        moveVect = moveVect.normalized;
+        transform.position += (Vector3)moveVect * Time.deltaTime * MovementSpeed;
     }
-
-    void Boundries() //Boundries that reset the position of the reticle if they try to leave the scene (easier and cleaner than walls)
+    
+    void Boundries() //Smoooooooth as fuuuuuuck
     {
-        if (transform.position.x < Leftbound) //Left boundry 
+        
+        if (transform.position.x < Leftbound) 
         {
-            rb.MovePosition(new Vector3(Leftbound, transform.position.y, 0));
+            transform.position = (new Vector3(Leftbound, transform.position.y, 0));
         }
 
-        if (transform.position.x > Rightbound) //Right boundry
+        if (transform.position.x > Rightbound)
         {
-            rb.MovePosition(new Vector3(Rightbound, transform.position.y, 0));
+            transform.position = (new Vector3(Rightbound, transform.position.y, 0));
         }
 
-        if (transform.position.y < Bottombound) //Bottom boundry
+        if (transform.position.y < Bottombound)
         {
-            rb.MovePosition(new Vector3(transform.position.x, Bottombound, 0));
+            transform.position = (new Vector3(transform.position.x, Bottombound, 0));
         }
 
-        if (transform.position.y > Topbound) //Top boundry
+        if (transform.position.y > Topbound)
         {
-            rb.MovePosition(new Vector3(transform.position.x, Topbound, 0));
+            transform.position = (new Vector3(transform.position.x, Topbound, 0));
         }
     }
 }
