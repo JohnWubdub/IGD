@@ -5,7 +5,9 @@ public class Sound : MonoBehaviour //manages the sound array and plays the sound
 {
     //audio clips
     public AudioClip shootSound; 
-    public AudioClip reloadSound; 
+    public AudioClip reload1Sound;
+    public AudioClip reload2Sound;
+    public AudioClip reload3Sound;
     public AudioClip backSound; 
     public AudioClip drySound; 
     
@@ -33,13 +35,21 @@ public class Sound : MonoBehaviour //manages the sound array and plays the sound
        audSources[1].PlayOneShot(shootSound, volume); 
     }
 
-    public void Reload()
+    public void Reload1()
     {
-       audSources[2].PlayOneShot(reloadSound, volume); 
+       audSources[2].PlayOneShot(reload1Sound, volume); 
+    }
+    public void Reload2()
+    {
+        audSources[3].PlayOneShot(reload2Sound, volume);
+    }
+    public void Reload3()
+    {
+        audSources[4].PlayOneShot(reload3Sound, volume);
     }
     public void DryFire()
     {
-       audSources[2].PlayOneShot(drySound, volume); 
+       audSources[5].PlayOneShot(drySound, volume); 
     }
 }
         

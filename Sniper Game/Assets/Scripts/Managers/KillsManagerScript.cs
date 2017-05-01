@@ -16,7 +16,7 @@ public class KillsManagerScript : MonoBehaviour //manages the number of kills an
 
     void Update ()
     {
-        if(Global.me.EnemiesKilled == RequiredKills) 
+        if(Global.me.EnemiesKilled == RequiredKills && Global.me.Fail == false) 
         {
             ShowWinningScreen(); 
             Global.me.Won = true;

@@ -16,7 +16,8 @@ public class TimerMangerScript : MonoBehaviour //manages the timer and the gameo
     {
         if (Global.me.Timer < 0 && Global.me.Won == false) 
         {
-            ShowGameOverScreen(); 
+            ShowGameOverScreen();
+            Global.me.Fail = true; 
         }
     }
 

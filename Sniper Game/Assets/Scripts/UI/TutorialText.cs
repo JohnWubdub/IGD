@@ -14,7 +14,7 @@ public class TutorialText : MonoBehaviour //Updates the tutorial text for the pl
 	
 	void Update ()
     { 
-      Tutorial.text = "SHOOT THE RED TARGETS BEFORE TIME RUNS OUT! WASD TO MOVE, SPACEBAR TO SHOOT, AND  R TO RELOAD. "; 
+      Tutorial.text = "SHOOT THE RED TARGETS BEFORE TIME RUNS OUT! WASD TO MOVE, SPACEBAR TO SHOOT, AND U-J-K TO RELOAD."; 
     }
 	
 }

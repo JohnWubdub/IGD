@@ -4,6 +4,9 @@ using System;
 
 public class Targeting : MonoBehaviour //This does fucking everything 
 {
+    public bool one = true;
+    public bool two = false;
+    public bool three = false;
     
     public float MovementSpeed = 4f; 
 
@@ -31,19 +34,35 @@ public class Targeting : MonoBehaviour //This does fucking everything
 	
 	void Update () //Manages player input
     {
-        if (Input.GetKeyDown(KeyCode.Space) && Global.me.Reload == true) 
+        if (Input.GetKeyDown(KeyCode.Space) && Global.me.Reload == true && Global.me.Won == false) 
         {
             Shooting();
+            Global.me.Shots += 1; 
         }
         InputMoving(); 
 
         Boundries();
 
-        if(Input.GetKeyDown(KeyCode.R)) 
+        if(Input.GetKeyDown(KeyCode.U) && one == true && Global.me.Won == false) 
         {
-            Global.me.Reload = true; 
-            sound.Reload();
+            sound.Reload1();
+            two = true;
+            one = false;
         }
+        if(Input.GetKeyDown(KeyCode.J) && two == true && Global.me.Won == false)
+        {
+            sound.Reload2();
+            three = true;
+            two = false;
+        }
+        if(Input.GetKeyDown(KeyCode.K) && three == true && Global.me.Won == false)
+        {
+            sound.Reload3();
+            Global.me.Reload = true;
+            three = false;
+            one = true;
+        }
+
         if (Input.GetKeyDown(KeyCode.Space) && Global.me.Reload == false) 
         {
             sound.DryFire();
@@ -73,7 +92,7 @@ public class Targeting : MonoBehaviour //This does fucking everything
             {
                 colArr[i].gameObject.SetActive(false); 
                 Persist.sonsHit += 1; 
-                Global.me.Timer += 5; 
+                Global.me.Timer -= 5; 
                 ps.Play();
                 Global.me.screenflash.Flash(.1f);
             }
